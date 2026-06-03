@@ -1,6 +1,6 @@
 # agentic-vault
 
-A multi-turn, streaming chat agent over a folder of notes. Ask in plain language; a LangGraph agent decides when to search your notes, when to reach for a tool (a calculator, the current date), and when to just answer. It streams the reply token by token, cites the notes it used, remembers the conversation, and remembers facts about you across conversations.
+agentic-vault is a chat app for talking to a folder of your own notes. You ask in plain language, and an agent decides what to do: search your notes, run a quick calculation, check the date, or just answer. It streams the reply as it writes it, shows the notes it pulled from, and remembers what you tell it, both within a conversation and across different chats.
 
 This is Project 2 of a three-project RAG/LLM stack. It builds on [wiki-rag](https://github.com/meowyx/wiki-rag) (one-shot Q&A) and turns it into a proper agentic chat app: the agent drives retrieval instead of a fixed pipeline ("agentic RAG"), wrapped in streaming, sessions, auth, and guards.
 
@@ -43,7 +43,17 @@ First-token time stays roughly flat as answers get longer, while the blocking wa
 
 ## Stack
 
-Python 3.13 (via uv), FastAPI + Pydantic v2, LangGraph + LangChain 1.x, Chroma (local file), Redis 7 (sessions, per-user memory, and the embedding cache), SQLite (stdlib, for the sidebar + transcripts), OpenAI `gpt-4o-mini` + `text-embedding-3-small` + `omni-moderation-latest`, PyJWT (HS256), LangFuse Cloud. The frontend is plain HTML/CSS/JS, no build step. Tests with pytest.
+- **Language:** Python 3.13 (via uv)
+- **API:** FastAPI + Pydantic v2
+- **Agent:** LangGraph + LangChain 1.x
+- **LLM:** OpenAI `gpt-4o-mini`, `text-embedding-3-small`, `omni-moderation-latest`
+- **Vector store:** Chroma (local file)
+- **Redis:** sessions, per-user memory, embedding cache
+- **SQLite:** sidebar + transcripts
+- **Auth:** PyJWT (self-signed JWT, HS256)
+- **Observability:** LangFuse
+- **Frontend:** plain HTML / CSS / JS, no build step
+- **Tests:** pytest
 
 ## Quickstart
 
@@ -89,7 +99,7 @@ Route tests use FastAPI's `TestClient` with the agent, Redis, SQLite, and modera
 
 ## Decisions worth knowing about
 
-**The agent drives retrieval.** Unlike wiki-rag's fixed retrieve-then-answer pipeline, here the model decides per turn whether to search, use another tool, or just answer. Retrieval is one tool among several.
+**The agent drives retrieval.** Here the model decides per turn whether to search, use another tool, or just answer. Retrieval is one tool among several.
 
 **Two kinds of memory.** Per-session working memory (Redis, TTL'd, summarized when it overflows so the context stays bounded) is separate from per-user long-term memory (Redis, durable facts the agent chooses to save and reads back in every conversation).
 
@@ -97,7 +107,7 @@ Route tests use FastAPI's `TestClient` with the agent, Redis, SQLite, and modera
 
 **Streaming plus guards is a tradeoff.** Tokens stream live, so the output guard runs after the stream. On a failure the answer is swapped for a safe one and the saved record stays clean, but a flagged token could flash before the swap. The strict alternative (buffer, validate, then send) loses streaming. For a local single-user app, stream-then-validate is the right call.
 
-**The calculator never uses `eval`.** Tool arguments are model-generated, so they're untrusted. The calculator parses to an AST and walks a whitelist of arithmetic operators; anything else is rejected.
+
 
 ## Missing for prod
 

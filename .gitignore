@@ -1,0 +1,37 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Generated vector store (rebuild with: uv run python -m agentic_vault.ingest)
+chroma_db/
+
+# SQLite conversation store (local data, regenerated as you chat)
+conversations.db
+
+# Design inspiration assets (local-only, not part of the public repo)
+design-inspo/
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# macOS
+.DS_Store
+
+# Working docs (kept local, not part of the public repo)
+plan.md
+PAINPOINTS.md
+CLAUDE.md
+
+# Dev tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic Vault</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='3.2' y='3.2' width='9.6' height='9.6' rx='1.4' transform='rotate(45 8 8)' fill='none' stroke='%2335c9e0' stroke-width='1.6'/%3E%3Ccircle cx='8' cy='8' r='1.8' fill='%2335c9e0'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+<div class="login-screen">
+  <section class="left">
+    <div class="top-brand">
+      <div class="mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3.2" y="3.2" width="9.6" height="9.6" rx="1.4" transform="rotate(45 8 8)" stroke="var(--accent-ink)" stroke-width="1.5"/><circle cx="8" cy="8" r="1.7" fill="var(--accent-ink)"/></svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Agentic Vault</span>
+        <span class="brand-sub">notes · memory · agent</span>
+      </div>
+    </div>
+
+    <div class="form-area">
+      <div class="login-card">
+        <div class="eyebrow">Welcome back</div>
+        <h1 class="login-title">Sign in to your vault</h1>
+        <p class="login-subtitle">Pick up where you left off. Your notes, memory, and agent are right where you left them.</p>
+
+        <form id="loginForm">
+          <div class="field">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.4" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M3.2 13c.4-2.3 2.4-3.6 4.8-3.6s4.4 1.3 4.8 3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <input id="username" type="text" value="meowy" autocomplete="username" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="3" y="7" width="10" height="6.5" rx="1.4" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 7V5.3a2.8 2.8 0 0 1 5.6 0V7" stroke="currentColor" stroke-width="1.3"/></svg>
+              <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+              <button class="reveal" type="button" id="reveal" title="Show password" aria-label="Show password">
+                <svg width="17" height="17" viewBox="0 0 18 18" fill="none"><path d="M1.5 9S4.5 3.8 9 3.8 16.5 9 16.5 9 13.5 14.2 9 14.2 1.5 9 1.5 9Z" stroke="currentColor" stroke-width="1.3"/><circle cx="9" cy="9" r="2.1" stroke="currentColor" stroke-width="1.3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button class="signin" type="submit" id="signinBtn">
+            Sign in
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h9.5m0 0L9 4.5M12.5 8 9 11.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="login-err" id="loginErr"></div>
+        </form>
+        <div class="signup-line">New here? <a id="repoLink" href="https://github.com/meowyx/agentic-vault" target="_blank" rel="noopener">Create your own Agentic Vault</a></div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <span>© 2026 Agentic Vault</span>
+      <span>local · single user</span>
+    </div>
+  </section>
+
+  <section class="right">
+    <div class="glow-orb"></div>
+    <div class="panel-inner">
+      <div class="panel-quote">A multi-tool agent, <span class="hl">running locally.</span></div>
+      <p class="panel-sub">Ask in plain language. The agent streams its reply token by token, reaches for the right tool, remembers the conversation, and cites the notes it used.</p>
+
+      <div class="demo">
+        <div class="demo-q"><div class="bub">What does my vault say about ownership in Rust?</div></div>
+        <div class="demo-a">
+          <div class="demo-av">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="3.2" y="3.2" width="9.6" height="9.6" rx="1.4" transform="rotate(45 8 8)" stroke="var(--accent-ink)" stroke-width="1.5"/><circle cx="8" cy="8" r="1.7" fill="var(--accent-ink)"/></svg>
+          </div>
+          <div class="demo-body">
+            <div class="demo-trace">
+              <div class="th"><span class="g">⟢</span> agent · 1 tool <span class="c">streaming</span></div>
+              <div class="demo-step"><span class="ar">→</span> search_rust_notes("ownership") <span class="ln">4 notes</span></div>
+            </div>
+            <div class="demo-text">Ownership is how Rust manages memory without a garbage collector. Each value has one owner<span class="typing"></span></div>
+            <div class="demo-cites">
+              <span class="demo-cite"><span class="n">1</span>rust 8 - ownership.md</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stack-row">
+        <span class="chip">LangGraph</span>
+        <span class="chip">SSE streaming</span>
+        <span class="chip">Redis memory</span>
+        <span class="chip">JWT auth</span>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="/static/login.js"></script>
+</body>
+</html>

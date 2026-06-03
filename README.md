@@ -1,8 +1,8 @@
 # agentic-vault
 
-agentic-vault is a chat app for talking to a folder of your own notes. You ask in plain language, and an agent decides what to do: search your notes, run a quick calculation, check the date, or just answer. It streams the reply as it writes it, shows the notes it pulled from, and remembers what you tell it, both within a conversation and across different chats.
-
-This is Project 2 of a three-project RAG/LLM stack. It builds on [wiki-rag](https://github.com/meowyx/wiki-rag) (one-shot Q&A) and turns it into a proper agentic chat app: the agent drives retrieval instead of a fixed pipeline ("agentic RAG"), wrapped in streaming, sessions, auth, and guards.
+agentic-vault is an agentic app for talking to your own notes. You can ask in plain language, and an agent decides what to do: search your notes, run a quick calculation, check the date, or just answer. 
+It streams the reply as it writes it, shows the notes as references it pulled from and it also remembers what you say by saving memoryies. 
+Saved memoryies work in both places: within a conversation and across different chats.
 
 
 ---
@@ -26,7 +26,7 @@ Open `http://localhost:8000`, sign in with your password, and you land in a Chat
 2. **`/chat`** (Server-Sent Events) requires that token.
 3. **Pre-guard:** length cap + OpenAI moderation. A too-long or flagged message gets a polite refusal and the agent never runs.
 4. **Load context:** the conversation's recent history (Redis, summarized when it overflows) plus any saved facts about you (Redis).
-5. **The agent** (LangGraph) loops: a `gpt-4o-mini` step decides whether to call a tool or answer. Tools are `search_rust_notes` (vector search over Chroma), `calculator` (a safe AST evaluator, no `eval`), `current_datetime`, and `save_memory`.
+5. **The agent** (LangGraph) loops: a `gpt-4o-mini` step decides whether to call a tool or answer. Tools are vector search over Chroma that can search any notes, `calculator` (a safe AST evaluator), `current_datetime`, and `save_memory`.
 6. **Stream out:** tokens, the tool trace, and citations flow to the browser as typed SSE events.
 7. **Post-guard:** the finished answer is validated against a Pydantic schema and moderated. If it fails it's swapped for a safe message (fails closed); if it passes you get the validated badge.
 8. **Persist:** the turn is appended to the Redis session (sliding TTL) and the SQLite transcript.
